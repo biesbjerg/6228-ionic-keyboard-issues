@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import 'rxjs/add/operator/do';
+
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'page-home',
@@ -8,8 +10,17 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  public data: any;
 
+  constructor(protected _dataService: DataService) {
+
+  }
+
+  public loadData(): void {
+    this._dataService.load()
+      .do(data => console.log('DATA LOADED', data))
+      .do(data => this.data = data)
+      .subscribe();
   }
 
 }
